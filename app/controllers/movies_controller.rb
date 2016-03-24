@@ -8,6 +8,23 @@ class MoviesController < ApplicationController
 
   def index
     @movies = Movie.all
+
+    @ordered_by = params[:order_by] if params.has_key? 'order_by'
+    @hilite_header = params[:header] if params.has_key? 'header'
+
+    #hilite the header
+
+
+    #update session with params
+    if @ordered_by == 'title'
+      #session[:order_by] = params[:order_by]
+      @movies = @movies.sort_by{|m| m.title.downcase}
+      @title_header = 'hilite'
+
+    elsif @ordered_by == 'release_date'
+      #session[:order_by] = params[:order_by]
+      @movies = @movies.sort_by{|m| m.release_date}
+    end
   end
 
   def new
